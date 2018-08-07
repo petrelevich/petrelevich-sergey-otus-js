@@ -7,6 +7,11 @@ var fn2 = () => new Promise(resolve => {
     setTimeout(() => resolve(2), 1000);
 })
 
+var fn3 = () => new Promise(resolve => {
+    console.log('fn3');
+    throw "Error!!!";
+})
+
 function promiseReduce(asyncFunctions, reduce, initialValue) {
     let result = initialValue;
     return new Promise((resolve, reject) => {
@@ -17,26 +22,27 @@ function promiseReduce(asyncFunctions, reduce, initialValue) {
             asyncFunctions[idx]().then((value) => {
                 result = reduce(result, value);
                 execFunc(++idx);
+            }).catch(function(e) {
+                console.log(e);
             });
         };
         execFunc(0);
     });
 }
 
-promiseReduce([fn1, fn2],
+promiseReduce([fn1, fn2, fn3],
     function (memo, value) {
         console.log('reduce');
         return memo * value;
     }, 1).then(console.log);
 
+
 /*
-//https://repl.it/@petrelevich/ViciousGranularSequel
-repl output:
+Вывод в консоль
 
 fn1
 reduce
 fn2
-    => Promise { <pending> }
 reduce
 2
 */
