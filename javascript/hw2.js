@@ -10,14 +10,17 @@ var fn2 = () => new Promise(resolve => {
 function promiseReduce(asyncFunctions, reduce, initialValue) {
     let result = initialValue;
     return new Promise((resolve, reject) => {
-        asyncFunctions.forEach((func, idx) => {
-            func().then(value => {
+        if (asyncFunctions.length === 1) {
+            asyncFunctions[0]().then(value => resolve(reduce(result, value)));
+            return;
+        }
+
+        asyncFunctions.slice(1, asyncFunctions.length).reduce((accum, current) => {
+            return accum.then(value => {
                 result = reduce(result, value);
-                if (idx === asyncFunctions.length - 1) {
-                    resolve(result);
-                }
+                return current();
             })
-        })
+        }, asyncFunctions[0]()).then(valueLast => {resolve(reduce(result, valueLast));});
     });
 }
 
@@ -32,8 +35,8 @@ promiseReduce([fn1, fn2],
 /*
 Вывод в консоль
 fn1
-fn2
 reduce
+fn2
 => Promise { <pending> }
 reduce
 2
