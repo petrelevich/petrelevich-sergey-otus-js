@@ -8,17 +8,13 @@ var fn2 = () => new Promise(resolve => {
 })
 
 function promiseReduce(asyncFunctions, reduce, initialValue) {
-    let result = 0;
-    return new Promise((resolve, reject) => {
-        asyncFunctions.reduce((accum, current) => {
-            return accum.then(value => {
-                console.log("value:" + value);
-                result = reduce(result, value);
-                return current();
-            })
-        }, Promise.resolve(initialValue))
-            .then(valueLast => {resolve(reduce(result, valueLast));});
-    });
+    return asyncFunctions.reduce((accum, current) => {
+        return accum.then(value => {
+            return current().then(value2 => {
+                return reduce(value, value2);
+            });
+        })
+    }, Promise.resolve(initialValue));
 }
 
 promiseReduce([fn1, fn2],
