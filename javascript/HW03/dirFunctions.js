@@ -19,9 +19,15 @@ const dirList = (dir, done) => {
             file = path.resolve(dir, file);
 
             fs.stat(file, (err, stat) => {
+                if (err) {
+                    return done(err);
+                }
                 if (stat && stat.isDirectory()) {
                     results.dirs.push(file);
                     dirList(file, (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
                         results.dirs = results.dirs.concat(res.dirs);
                         results.files = results.files.concat(res.files);
                         if (!--itemsForProcess) {
@@ -30,7 +36,8 @@ const dirList = (dir, done) => {
                     });
                 } else {
                     results.files.push(file);
-                    if (!--itemsForProcess) {
+                    --itemsForProcess;
+                    if (!itemsForProcess) {
                         done(null, results);
                     }
                 }

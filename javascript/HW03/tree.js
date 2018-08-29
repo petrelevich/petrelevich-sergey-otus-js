@@ -7,4 +7,9 @@ if (process.argv.length <= 2) {
 
 const rootPath = process.argv[2];
 
-dirFunctions.dirList(rootPath, (err, results) => {console.log(results)});
+dirFunctions.dirList(rootPath, (err, results) => {
+        if (err) {
+            console.log("error:" + err);
+        }
+        console.log(results)
+    });
