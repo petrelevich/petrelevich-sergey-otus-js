@@ -1,0 +1,12 @@
+{
+  "name": "hw04",
+  "version": "1.0.0",
+  "description": "otus js homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "streams": "node streams.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
