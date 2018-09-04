@@ -2,7 +2,7 @@ const {pipeline} = require('stream');
 const stream = require('stream');
 
 function dataProcessor(func) {
-    return new Promise(() => setTimeout(func, 5000));
+    return new Promise(() => setTimeout(func, 3000));
 }
 
 function getRandomInt(max) {
@@ -10,29 +10,28 @@ function getRandomInt(max) {
 }
 
 const randGen = (function() {
+    let val = 0;
     const streamRb = new stream.Readable({
         objectMode: true,
-        read() {}
+        highWaterMark: 5,
+        read() {
+            console.log(">>>>generated data:" + val);
+            streamRb.push(val++);
+        }
     });
-
-    setInterval(() => {
-        const value = getRandomInt(100);
-        console.log("generated value:" + value);
-        streamRb.push(value);
-    }, 1000);
-
     return streamRb;
 })();
 
 const transformator = (function() {
     const streamTrans = new stream.Transform({
         objectMode: true,
+        highWaterMark: 10,
         transform: (chunk, encoding, done) => {
             let outData = -1;
             if (chunk !== null) {
-                console.log("input data:" + chunk);
+                console.log();
                 outData = chunk + getRandomInt(100);
-                console.log("transformed data:" + outData);
+                console.log("input data: " + chunk + " transformed data:" + outData);
             }
             done(null, outData);
         }
@@ -60,10 +59,14 @@ const writer = (function() {
     return streamWrite;
 })();
 
-console.log(writer.writableHighWaterMark);
+console.log("HWM reader:" + randGen.readableHighWaterMark);
+console.log("HWM writer:" + writer.writableHighWaterMark);
 
-//randGen.pipe(transformator).pipe(writer);
-randGen.pipe(writer);
+console.log("HWM read transformator:" + transformator.readableHighWaterMark);
+console.log("HWM write transformator:" + transformator.writableHighWaterMark);
+
+randGen.pipe(transformator).pipe(writer);
+
 /*
 randGen.on('data', (data) => {
     const result = writer.write(data);
