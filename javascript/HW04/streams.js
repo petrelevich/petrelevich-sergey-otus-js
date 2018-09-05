@@ -1,9 +1,4 @@
-const {pipeline} = require('stream');
 const stream = require('stream');
-
-function dataProcessor(func) {
-    return new Promise(() => setTimeout(func, 3000));
-}
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -22,42 +17,35 @@ const randGen = (function() {
     return streamRb;
 })();
 
-const transformator = (function() {
-    const streamTrans = new stream.Transform({
-        objectMode: true,
-        highWaterMark: 10,
-        transform: (chunk, encoding, done) => {
-            let outData = -1;
-            if (chunk !== null) {
-                console.log();
-                outData = chunk + getRandomInt(100);
-                console.log("input data: " + chunk + " transformed data:" + outData);
-            }
-            done(null, outData);
+
+const transformator = new stream.Transform({
+    objectMode: true,
+    highWaterMark: 10,
+    transform: (chunk, encoding, done) => {
+        let outData = -1;
+        if (chunk !== null) {
+            console.log();
+            outData = chunk + getRandomInt(100);
+            console.log("input data: " + chunk + " transformed data:" + outData);
         }
-    });
+        done(null, outData);
+    }
+});
 
-    return streamTrans;
-})();
 
-
-const writer = (function() {
-    const streamWrite = new stream.Writable({
-        highWaterMark: 2,
-        objectMode: true,
-        write: (chunk, encoding, done) => {
-            if (chunk !== null) {
-                dataProcessor(() => {
+const writer = new stream.Writable({
+    highWaterMark: 2,
+    objectMode: true,
+    write: (chunk, encoding, done) => {
+        if (chunk !== null) {
+            setTimeout(() => {
                     console.log(">>>>>data:" + chunk);
                     done();
-                });
-
-            }
+                }, 3000);
         }
-    });
+    }
+});
 
-    return streamWrite;
-})();
 
 console.log("HWM reader:" + randGen.readableHighWaterMark);
 console.log("HWM writer:" + writer.writableHighWaterMark);
