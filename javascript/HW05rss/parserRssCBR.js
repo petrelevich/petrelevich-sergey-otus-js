@@ -1,3 +1,6 @@
 const parserRss = require('./parserRss');
+const mongoose = require('mongoose');
 
- parserRss.parse("https://www.cbr.ru/rss/RssNews", "cbr");
+mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true });
+
+ parserRss.parse("https://www.cbr.ru/rss/RssNews", "cbr", mongoose);
