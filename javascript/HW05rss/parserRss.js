@@ -1,10 +1,8 @@
 const Parser = require('node-xml-stream');
 const FetchStream = require("fetch").FetchStream;
 
-
-const parse = (url, collectionToSave, mongoose) => {
+const parse = (url, rssItem) => {
     const parser = new Parser();
-    let RssItem;
     let item = null;
     let tagName = null;
 
@@ -20,7 +18,7 @@ const parse = (url, collectionToSave, mongoose) => {
             if (item !== null) {
                 const itemForSave = item;
                 const query = {'guid': itemForSave.guid};
-                RssItem.findOneAndUpdate(query, itemForSave, {upsert:true}, (err, data) => {
+                rssItem.findOneAndUpdate(query, itemForSave, {upsert:true}, (err, data) => {
                     if (err) {
                         console.log("save Error:" + err);
                     } else {
@@ -41,15 +39,6 @@ const parse = (url, collectionToSave, mongoose) => {
 
     parser.on('error', err => {
         console.log("error:" + err);
-    });
-
-    RssItem = mongoose.model(collectionToSave, {
-        guid: String,
-        title: String,
-        link: String,
-        description: String,
-        pubDate: String,
-        category: String
     });
 
     const fetch = new FetchStream(url);
