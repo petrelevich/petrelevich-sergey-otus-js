@@ -1,15 +1,17 @@
+const mongoose = require('mongoose');
 
-const get = (mongoose, collectionToSave) => {
-    return mongoose.model(collectionToSave, {
-        guid: String,
-        title: String,
-        link: String,
-        description: String,
-        pubDate: String,
-        category: String
-    });
-};
+mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true });
+
+const model = mongoose.model("RssItems", {
+    chanelId: String,
+    guid: String,
+    title: String,
+    link: String,
+    description: String,
+    pubDate: String,
+    category: String
+});
 
 module.exports = {
-    get: get
+    model: model
 };
