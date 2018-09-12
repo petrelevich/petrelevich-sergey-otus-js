@@ -1,8 +1,5 @@
-const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true });
-
-const model = mongoose.model("RssItems", {
+const model = (mongoose) => mongoose.model("RssItems", {
     chanelId: String,
     guid: String,
     title: String,
