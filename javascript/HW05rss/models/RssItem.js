@@ -1,5 +1,6 @@
+const mongoose = require('mongoose');
 
-const model = (mongoose) => mongoose.model("RssItems", {
+const model =  mongoose.model("RssItems", {
     chanelId: String,
     guid: String,
     title: String,

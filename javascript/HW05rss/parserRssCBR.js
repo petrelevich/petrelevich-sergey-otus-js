@@ -4,4 +4,4 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true });
 
-parserRss.parse("https://www.cbr.ru/rss/RssNews", RssItem.model(mongoose), "cbr");
+parserRss.parse("https://www.cbr.ru/rss/RssNews", RssItem.model, "cbr");
