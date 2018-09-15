@@ -4,17 +4,17 @@ function sum (value) {
         if (value !== undefined) {
             counter += value;
             return sumInt;
-        } else {
-            const f = () => counter;
-            return f();
         }
+        return counter;
     }
     return sumInt(value);
 }
 
 /*
-tests:
-console.log(sum());
-console.log(sum(1)(2)(3)(4)());
+
+https://repl.it/@petrelevich/PastelMediocreInstructionset
 
 */
+//tests:
+console.log(sum());
+console.log(sum(1)(2)(3)(4)());
