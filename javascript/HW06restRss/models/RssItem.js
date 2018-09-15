@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const model = mongoose.model("RssItems", {
-    chanelId: String,
+    channelId: String,
     guid: String,
     title: String,
     link: String,

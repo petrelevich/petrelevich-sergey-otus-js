@@ -1,9 +1,9 @@
 const Parser = require('node-xml-stream');
 const FetchStream = require("fetch").FetchStream;
 
-const parse = (url, rssItem, rssChanelId) => {
+const parse = (url, rssItem, rssChannelId) => {
     const parser = new Parser();
-    const chanelId = rssChanelId;
+    const channelId = rssChannelId;
     let item = null;
     let tagName = null;
 
@@ -11,7 +11,7 @@ const parse = (url, rssItem, rssChanelId) => {
         tagName = name;
         if (name === "item") {
             item = {};
-            item["chanelId"] = chanelId;
+            item["channelId"] = channelId;
         }
     });
 
@@ -19,7 +19,7 @@ const parse = (url, rssItem, rssChanelId) => {
         if (name === "item") {
             if (item !== null) {
                 const itemForSave = item;
-                const query = {'guid': itemForSave.guid, 'chanelId' : itemForSave.chanelId};
+                const query = {'guid': itemForSave.guid, 'channelId' : itemForSave.channelId};
                 rssItem.findOneAndUpdate(query, itemForSave, {upsert:true}, (err, data) => {
                     if (err) {
                         console.log("save Error:" + err);

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const model = mongoose.model("RssChanels", {
-    chanelId: String,
+const model = mongoose.model("RssChannels", {
+    channelId: String,
     url: String
 });
 
