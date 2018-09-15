@@ -1,0 +1,21 @@
+{
+  "name": "hw06",
+  "version": "1.0.0",
+  "description": "otus js homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startRssServer": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "fetch": "^1.1.0",
+    "mongoose": "^5.2.14",
+    "node-xml-stream": "^1.0.2"
+  },
+  "devDependencies": {}
+}
