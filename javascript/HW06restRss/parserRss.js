@@ -6,6 +6,7 @@ const parse = (url, rssItem, rssChannelId) => {
     const channelId = rssChannelId;
     let item = null;
     let tagName = null;
+    let cdataLast = null;
 
     parser.on('opentag', (name, attrs) => {
         tagName = name;
@@ -13,6 +14,10 @@ const parse = (url, rssItem, rssChannelId) => {
             item = {};
             item["channelId"] = channelId;
         }
+    });
+
+    parser.on('cdata', cdata => {
+        cdataLast = cdata;
     });
 
     parser.on('closetag', name => {
@@ -34,9 +39,13 @@ const parse = (url, rssItem, rssChannelId) => {
 
     parser.on('text', text => {
         if (item !== null) {
-            item[tagName] = text;
+            if (cdataLast) {
+                item[tagName] = cdataLast;
+                cdataLast = null;
+            } else {
+                item[tagName] = text;
+            }
         }
-
     });
 
     parser.on('error', err => {

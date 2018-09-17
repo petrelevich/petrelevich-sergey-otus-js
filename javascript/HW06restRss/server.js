@@ -14,9 +14,15 @@ mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true });
 
 //- Создание рассылки по `URL`
 app.post('/channel', function(req, res) {
-    utilRss.saveChannel(RssChannel.model, req.body.channelId, req.body.url);
-    parserRss.parse(req.body.url, RssItem.model, req.body.channelId);
-    res.status(201).send("created: " + req.body.url);
+    if (req.body.channelId) {
+        utilRss.saveChannel(RssChannel.model, req.body.channelId, req.body.url);
+        parserRss.parse(req.body.url, RssItem.model, req.body.channelId);
+        res.status(201).send("created: " + req.body.url);
+    } else {
+        res.status(400).send("error: channelId is not specified");
+    }
+
+
 });
 
 //- Показ списка всех добавленных `URL` рассылок.
