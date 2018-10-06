@@ -8,9 +8,6 @@ function City({cityInfo}) {
             влажность:&nbsp;{cityInfo.data.humidity}&nbsp;%&nbsp;
         </div>
     </div>);
-
-
-
 }
 
 export default City;
