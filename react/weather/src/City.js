@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-function City({cityInfo}) {
-    return (<div>город: {cityInfo.name}
-        <div>
-            температура:&nbsp;{cityInfo.data.temperature}°&nbsp;
-            ветер:&nbsp;{cityInfo.data.wind}&nbsp; м/с &nbsp;
-            влажность:&nbsp;{cityInfo.data.humidity}&nbsp;%&nbsp;
-        </div>
-    </div>);
+class City extends Component {
+    removeCity = () => {
+        this.props.removeFunc(this.props.cityInfo.name);
+    }
+
+    render() {
+        return (
+            <table border="1">
+                <caption>город: {this.props.cityInfo.name}</caption>
+                <tbody>
+                <tr>
+                    <th>температура, °</th>
+                    <th>ветер, м/с</th>
+                    <th>влажность, %</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>{this.props.cityInfo.data.temperature}</td>
+                    <td>{this.props.cityInfo.data.wind}</td>
+                    <td>{this.props.cityInfo.data.humidity}</td>
+                    <td><button onClick={this.removeCity}>Удалить город</button></td>
+                </tr>
+                </tbody>
+            </table>
+        );
+    }
 }
 
 export default City;
