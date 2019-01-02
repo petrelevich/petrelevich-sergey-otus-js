@@ -30,7 +30,7 @@ function doSynchRequest(url, counter) {
     if (counter === 0) {
         return;
     }
-    doRequestPromis('http://127.0.0.1:3000').then((data) => {
+    doRequestPromis(url).then((data) => {
         console.log(`resp:${data}`);
         doSynchRequest(url, counter - 1);
     });
