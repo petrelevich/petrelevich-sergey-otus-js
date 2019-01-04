@@ -6,10 +6,13 @@ customElements.define('my-leaf',
         connectedCallback() {
             this.innerHTML = `${this.produceStars(this.dataset.level)}${this.dataset.id}<br>`
 
-            if (this.dataset.leafdata !== "undefined") {
+            if (this.dataset.leafdata) {
                 const leafdata = JSON.parse(this.dataset.leafdata);
                 leafdata.forEach(treeItem => {
-                    this.innerHTML += `<my-leaf data-id=${treeItem.id} data-leafdata=${JSON.stringify(treeItem.items)} data-level=${(parseInt(this.dataset.level) + 1)} />`})
+                    this.innerHTML += treeItem.items ?
+                        `<my-leaf data-id=${treeItem.id} data-leafdata=${JSON.stringify(treeItem.items)} data-level=${(parseInt(this.dataset.level) + 1)} />` :
+                        `<my-leaf data-id=${treeItem.id} data-level=${(parseInt(this.dataset.level) + 1)} />`
+                })
             }
         }
 
