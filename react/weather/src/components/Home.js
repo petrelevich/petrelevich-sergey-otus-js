@@ -73,8 +73,7 @@ class HomeInt extends Component {
                         </button>
                     </div>
                 </div>
-                <CityList cities={this.props.cities} citiesFilter=""
-                          removeFunc={this.removeCity}/>
+                <CityList cities={this.props.cities} removeFunc={this.removeCity}/>
                 <Alert stack={{limit: 3}}/>
             </div>
         )
