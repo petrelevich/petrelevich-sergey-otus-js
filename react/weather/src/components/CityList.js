@@ -1,16 +1,38 @@
-import React from 'react';
-import City from "./City.js"
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+import {connect} from "react-redux";
+import CityRemoveButton from "./CityRemoveButton";
 
-
-function CityList({cities, removeFunc}) {
-    console.log("debug");
-    console.log(cities);
-    return (
-        <div>
-            {cities.map((city) => <City key={city.name} cityInfo={city} removeFunc={removeFunc} />)}
-        </div>
-    );
+class CityList extends Component {
+    render() {
+        return (
+            <div>
+                <nav>
+                    <table>
+                        <tbody>
+                            {this.props.cities.map((city) =>
+                                <tr key={city.name}>
+                                    <td><Link to={{ pathname: `/city/${city.name}` }}>{city.name}</Link></td>
+                                    <td><CityRemoveButton cityName={city.name}/></td>
+                                </tr>)}
+                        </tbody>
+                    </table>
+                </nav>
+            </div>
+        );
+    }
 }
 
-export default CityList
+const mapStateToProps = state => {
+    return {
+        cities: state.cities
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CityList);
 

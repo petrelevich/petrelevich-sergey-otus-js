@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 
 class City extends Component {
-    removeCity = () => {
-        this.props.removeFunc(this.props.cityInfo.name);
+    getCityInfo = () => {
+        const cityName = this.props.match.params.cityName;
+        return this.props.cities.find((city) => city.name === cityName);
     }
 
     render() {
         return (
             <table border="1">
-                <caption>город: {this.props.cityInfo.name}</caption>
+                <caption>город: {this.getCityInfo().name} </caption>
                 <tbody>
                 <tr>
                     <th>температура, °</th>
                     <th>ветер, м/с</th>
                     <th>влажность, %</th>
-                    <th></th>
                 </tr>
                 <tr>
-                    <td>{this.props.cityInfo.data.temperature}</td>
-                    <td>{this.props.cityInfo.data.wind}</td>
-                    <td>{this.props.cityInfo.data.humidity}</td>
-                    <td><button onClick={this.removeCity}>Удалить город</button></td>
+                    <td>{this.getCityInfo().data.temperature}</td>
+                    <td>{this.getCityInfo().data.wind}</td>
+                    <td>{this.getCityInfo().data.humidity}</td>
                 </tr>
                 </tbody>
             </table>
@@ -28,4 +28,15 @@ class City extends Component {
     }
 }
 
-export default City;
+const mapStateToProps = state => {
+    return {
+        cities: state.cities
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(City);

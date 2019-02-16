@@ -9,11 +9,7 @@ const successMsgOptions = {position: 'top', effect: 'slide',  timeout: 5000};
 const errorMsgOptions = {position: 'top', effect: 'slide',  timeout: 'none'};
 
 
-class HomeInt extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+class Home extends Component {
     addCity = () => {
         const newCityName = this.inputedCityName.value
         if ("" === newCityName) {
@@ -40,18 +36,6 @@ class HomeInt extends Component {
         this.props.onSetCityFilter(this.inputedCityName.value)
     };
 
-    removeCity = (cityName) => {
-        this.props.onRemoveCity(cityName);
-
-        const existCity = this.props.cities.find((city) => {
-            return city.name === cityName;
-        });
-        if (!existCity) {
-            Alert.success("Город " + cityName + " удален из списка", successMsgOptions);
-            return;
-        }
-    };
-
     render() {
         console.log(this.props.cities);
         return (
@@ -73,7 +57,7 @@ class HomeInt extends Component {
                         </button>
                     </div>
                 </div>
-                <CityList cities={this.props.cities} removeFunc={this.removeCity}/>
+                <CityList/>
                 <Alert stack={{limit: 3}}/>
             </div>
         )
@@ -94,11 +78,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onAddCity: newCity => {dispatch({type: 'ADD_CITY', payload: newCity})},
-        onRemoveCity: cityName => {dispatch({type: 'REMOVE_CITY', payload: cityName})},
         onSetCityFilter: cityFilter => {dispatch({type: 'SET_CITY_FILTER', payload: cityFilter})}
-
     }
 }
 
-const Home = connect(mapStateToProps, mapDispatchToProps)(HomeInt);
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
