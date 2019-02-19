@@ -57,7 +57,7 @@ class Home extends Component {
                         </button>
                     </div>
                 </div>
-                <CityList/>
+                <CityList cityList={this.props.cities}/>
                 <Alert stack={{limit: 3}}/>
             </div>
         )
