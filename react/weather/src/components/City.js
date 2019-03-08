@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
 
 class City extends Component {
     getCityInfo = () => {
-        const cityName = this.props.match.params.cityName;
-        return this.props.cities.find((city) => city.name === cityName);
+        return this.props.location.state.city;
     }
 
     render() {
@@ -28,15 +26,4 @@ class City extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        cities: state.cities
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(City);
+export default City;

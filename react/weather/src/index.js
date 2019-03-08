@@ -17,30 +17,15 @@ const initialState = {
 
 function reducer(state = initialState, action) {
     if (action.type === 'ADD_CITY') {
-        return {
-            cityFilter: state.cityFilter,
-            cities: [...state.cities, action.payload],
-        }
+        return {...state, cities: [...state.cities, action.payload]}
     }
 
     if (action.type === 'REMOVE_CITY') {
-        const newCities = state.cities.slice();
-        for (let idx = 0; idx < state.cities.length; idx++) {
-            if (state.cities[idx].name === action.payload) {
-                newCities.splice(idx, 1);
-                return {
-                    cityFilter: state.cityFilter,
-                    cities: newCities
-                }
-            }
-        }
+        return {...state, cities: state.cities.filter(city => city.name !== action.payload)}
     }
 
     if (action.type === 'SET_CITY_FILTER') {
-        return {
-            cityFilter: action.payload,
-            cities: state.cities
-        }
+        return {...state, cityFilter: action.payload}
     }
     return state;
 }

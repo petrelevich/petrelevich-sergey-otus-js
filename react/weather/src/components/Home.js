@@ -57,7 +57,7 @@ class Home extends Component {
                         </button>
                     </div>
                 </div>
-                <CityList cityList={this.props.cities}/>
+                <CityList cityList={this.props.cities} removeCityFunction={this.props.onRemoveCity}/>
                 <Alert stack={{limit: 3}}/>
             </div>
         )
@@ -78,7 +78,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onAddCity: newCity => {dispatch({type: 'ADD_CITY', payload: newCity})},
-        onSetCityFilter: cityFilter => {dispatch({type: 'SET_CITY_FILTER', payload: cityFilter})}
+        onSetCityFilter: cityFilter => {dispatch({type: 'SET_CITY_FILTER', payload: cityFilter})},
+        onRemoveCity: cityName => {dispatch({type: 'REMOVE_CITY', payload: cityName})},
     }
 }
 

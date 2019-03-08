@@ -1,19 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import CityRemoveButton from "./CityRemoveButton";
 
-const CityList = ({cityList}) =>
+const CityList = ({cityList, removeCityFunction}) =>
     {
         return (
             <div>
                 <nav>
                     <table>
                         <tbody>
-                            {cityList.map((city) =>
-                                <tr key={city.name}>
-                                    <td><Link to={{ pathname: `/city/${city.name}` }}>{city.name}</Link></td>
-                                    <td><CityRemoveButton cityName={city.name}/></td>
-                                </tr>)}
+                        {cityList.map((city) =>
+                            <tr key={city.name}>
+                                <td><Link to={{
+                                    pathname: `/city/${city.name}`,
+                                    state: {city: city}
+                                }}>{city.name}</Link></td>
+                                <td><button onClick={() => removeCityFunction(city.name)}>Удалить город </button></td>
+                            </tr>)}
                         </tbody>
                     </table>
                 </nav>
